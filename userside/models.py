@@ -29,6 +29,14 @@ class mycourse(models.Model):
         return self.name
 
 
+class Notification(models.Model):
+    pass
+
+
+class My_documents(models.Model):
+    pass
+
+
 class Order(models.Model):
     date = models.DateField()
     course = models.ManyToManyField('userside.mycourse')

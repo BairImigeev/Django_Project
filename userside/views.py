@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.template import Template, Context
 from django.views.generic import TemplateView, ListView, DetailView
-
+from userside.forms import CourseSearch
 import userside.models
 from django.urls import path
 # Create your views here.
@@ -42,6 +42,12 @@ class mycourses(TitleMixin, ListView):
         if name:
             queryset = queryset.filter(name__icontains=name)
         return queryset
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        context['form'] = CourseSearch(self.request.GET or None)
+        print(context)
+        return context
 
 
 class course_detail(TitleMixin, DetailView):
