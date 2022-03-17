@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<form class="row g-3">
+    <div class="col-auto">
+        <input type="text" class="form-control" placeholder="Название курса" name="name" value="{{ request.GET.name }}">
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+
+</form>
