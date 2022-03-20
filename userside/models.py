@@ -6,10 +6,13 @@ from django.db import models
 
 
 class educator(models.Model):
-    name = models.CharField('ФИО', max_length=128)
+    name = models.CharField('Препод', max_length=128)
+
+    def __str__(self):
+        return self.name
 
 
-class mycourse(models.Model):
+class course(models.Model):
     educator = models.ForeignKey('userside.educator', on_delete=models.CASCADE, null=True, blank=True,
                                  related_name='mycourses')
     name = models.CharField('Название курса', max_length=128)
@@ -39,7 +42,7 @@ class My_documents(models.Model):
 
 class Order(models.Model):
     date = models.DateField()
-    course = models.ManyToManyField('userside.mycourse')
+    course = models.ManyToManyField('userside.course')
 
 
 # class Notice(models.Model):

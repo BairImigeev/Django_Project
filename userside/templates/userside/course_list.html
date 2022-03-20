@@ -1,29 +1,30 @@
 {% extends 'userside/index.html' %}
 
 {% block content %}
-{% include 'userside/search_course_include.html' %}
+    {% include 'userside/search_course_include.html' %}
+
     <table class="table">
         <thead>
         <tr>
             <th scope="col">#</th>
             <th scope="col">Название курса</th>
-            <th scope="col">Количество часов </th>
+            <th scope="col">Количество часов</th>
             <th scope="col">Статус</th>
             <th scope="col">Оценка</th>
             <th scope="col">Действие с объектом</th>
-            <th scope="col">Дата начала </th>
-            <th scope="col">Дата окончания </th>
+            <th scope="col">Дата начала</th>
+            <th scope="col">Дата окончания</th>
         </tr>
         </thead>
         <tbody>
         {% for course in object_list %}
         <tr>
             <th scope="row">{{ forloop.counter }}</th>
-            <td><a href = "{% url 'userside:course_detail' course.pk %}">{{ course.name }}</a></td>
+            <td><a href="{% url 'userside:course_detail' course.pk %}">{{ course.name }}</a></td>
             <td>{{ course.length_of_time }}</td>
             <td>{{ course.status }}</td>
             <td>{{ course.mark|default:" - " }}</td>
-            <td>{{ course.action_object }}</td>
+            <td>{{ course.action_object|default:" - "}}</td>
             <td>{{ course.date_begin }}</td>
             <td>{{ course.date_end }}</td>
 
@@ -32,5 +33,8 @@
 
         </tbody>
     </table>
+
+     <a href="{% url 'userside:course_create' %}" class="btn btn-success"> Добавить курс</a>
+
 {% endblock %}
 

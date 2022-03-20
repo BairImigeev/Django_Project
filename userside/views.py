@@ -1,10 +1,13 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.template import Template, Context
-from django.views.generic import TemplateView, ListView, DetailView
+from django.views.generic import TemplateView, ListView, DetailView, UpdateView, CreateView, DeleteView
 from userside.forms import CourseSearch
 import userside.models
-from django.urls import path
+import userside.filters
+from django.urls import path, reverse
+
+
 # Create your views here.
 
 
@@ -33,25 +36,31 @@ class IndexView(TitleMixin, TemplateView):
         return 'Go'
 
 
-class mycourses(TitleMixin, ListView):
-    title = 'курсы'
+class course(TitleMixin, ListView):
+    title = 'Курсы'
+
+    def get_filters(self):
+        return userside.filters.CourseFilter(self.request.GET)
 
     def get_queryset(self):
-        name = self.request.GET.get('name')
-        queryset = userside.models.mycourse.objects.all()
-        if name:
-            queryset = queryset.filter(name__icontains=name)
-        return queryset
+        # name = self.request.GET.get('name')
+        # queryset = userside.models.mycourse.objects.all()
+        # if name:
+        #     queryset = queryset.filter(name__icontains=name)
+        # return queryset
+        return self.get_filters().qs
 
     def get_context_data(self):
         context = super().get_context_data()
-        context['form'] = CourseSearch(self.request.GET or None)
+        # context['form'] = CourseSearch(self.request.GET or None)
+        context['filters'] = self.get_filters()
         print(context)
         return context
 
 
 class course_detail(TitleMixin, DetailView):
-    queryset = userside.models.mycourse.objects.all()
+
+    queryset = userside.models.course.objects.all()
 
     def get_title(self):
         return str(self.get_object())
@@ -71,10 +80,38 @@ class course_detail(TitleMixin, DetailView):
 #     courses = userside.models.mycourse.objects.all()
 #     if name:
 #         courses = courses.filter(name__icontains=name)
-#     return render(request, 'userside/mycourse_list.html', {'courses': courses})
+#     return render(request, 'userside/course_list.html', {'courses': courses})
 
 # def course_detail(request, pk):
 #     course = get_object_or_404(userside.models.mycourse, pk=pk)
 #     print('!!!!!!!!!!!!!!!!!!!!!!!!!!!', course)
-#     return render(request, 'userside/mycourse_detail.html', {'course': course})
+#     return render(request, 'userside/course_detail.html', {'course': course})
 
+class CourseUpdate(TitleMixin, UpdateView):
+    model = userside.models.course
+    form_class = userside.forms.CourseEdit
+
+    def get_title(self):
+        return f'Изменение данных курса "{str(self.get_object())}"'
+
+    def get_success_url(self):
+        return reverse('userside:course_list')
+
+
+class CourseCreate(TitleMixin, CreateView):
+    model = userside.models.course
+    form_class = userside.forms.CourseEdit
+    title = 'Добавление курса'
+
+    def get_success_url(self):
+        return reverse('userside:course_list')
+
+
+class CourseDelete(TitleMixin, DeleteView):
+    model = userside.models.course
+
+    def get_title(self):
+        return f'Удаление курса {str(self.get_object())}'
+
+    def get_success_url(self):
+        return reverse('userside:course_list')
