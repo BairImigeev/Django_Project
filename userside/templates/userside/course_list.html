@@ -20,7 +20,7 @@
         {% for course in object_list %}
         <tr>
             <th scope="row">{{ forloop.counter }}</th>
-            <td><a href="{% url 'userside:course_detail' course.pk %}">{{ course.name }}</a></td>
+            <td><a href="{% url 'userside:course_detail' course.pk %}">{{ course.name|capfirst }}</a></td>
             <td>{{ course.length_of_time }}</td>
             <td>{{ course.status }}</td>
             <td>{{ course.mark|default:" - " }}</td>
@@ -29,12 +29,13 @@
             <td>{{ course.date_end }}</td>
 
         </tr>
+        {% empty %}
+            <h4> не найдено </h4>
         {% endfor %}
-
         </tbody>
     </table>
 
-     <a href="{% url 'userside:course_create' %}" class="btn btn-success"> Добавить курс</a>
+    <a href="{% url 'userside:course_create' %}" class="btn btn-success"> Добавить курс</a>
 
 {% endblock %}
 

@@ -8,8 +8,7 @@ class CourseSearch(forms.Form):
     of_time = forms.IntegerField(label='Количество часов', required=False, help_text='Минимальное количество часов')
     educator = forms.ModelChoiceField(label='Препод', required=False, queryset=userside.models.educator.objects.all())
 
-    # def clean(self):
-    #     raise forms.ValidationError('Ошибка')
+
 
     def clean_of_time(self):
         cleaned_data = self.cleaned_data

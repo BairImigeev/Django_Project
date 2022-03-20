@@ -36,18 +36,13 @@ class IndexView(TitleMixin, TemplateView):
         return 'Go'
 
 
-class course(TitleMixin, ListView):
+class courses(TitleMixin, ListView):
     title = 'Курсы'
 
     def get_filters(self):
         return userside.filters.CourseFilter(self.request.GET)
 
     def get_queryset(self):
-        # name = self.request.GET.get('name')
-        # queryset = userside.models.mycourse.objects.all()
-        # if name:
-        #     queryset = queryset.filter(name__icontains=name)
-        # return queryset
         return self.get_filters().qs
 
     def get_context_data(self):
@@ -64,28 +59,7 @@ class course_detail(TitleMixin, DetailView):
 
     def get_title(self):
         return str(self.get_object())
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data()
-    #     context['title'] = str(self.get_object())
-    #     return context
 
-
-# def index(request):
-#     courses = userside.models.mycourse.objects.all()
-#     return render(request, 'userside/index.html', {'courses': courses})
-
-
-# def mycourses(request):
-#     name = request.GET.get('name')
-#     courses = userside.models.mycourse.objects.all()
-#     if name:
-#         courses = courses.filter(name__icontains=name)
-#     return render(request, 'userside/course_list.html', {'courses': courses})
-
-# def course_detail(request, pk):
-#     course = get_object_or_404(userside.models.mycourse, pk=pk)
-#     print('!!!!!!!!!!!!!!!!!!!!!!!!!!!', course)
-#     return render(request, 'userside/course_detail.html', {'course': course})
 
 class CourseUpdate(TitleMixin, UpdateView):
     model = userside.models.course
