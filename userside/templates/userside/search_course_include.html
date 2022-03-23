@@ -1,11 +1,9 @@
 {% load bootstrap5 %}
 <form class="row g-3">
-<!--    <div class="col-auto">-->
-<!--        <input type="text" class="form-control" placeholder="Название курса" name="name" value="{{ request.GET.name }}">-->
-
-    <!--    </div>-->
 
     {% bootstrap_form filters.form layout='horizontal' %}
+
+    <!--{{ form }}-->
     <div class="col-auto">
         <button type="submit" class="btn btn-primary">Поиск</button>
     </div>

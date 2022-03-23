@@ -6,13 +6,14 @@ from django.db import models
 
 
 class educator(models.Model):
-    name = models.CharField('Препод', max_length=128)
+    name = models.CharField('Преподаватель', max_length=128)
 
     def __str__(self):
         return self.name
 
 
 class course(models.Model):
+    # 'userside.educator'
     educator = models.ForeignKey('userside.educator', on_delete=models.CASCADE, null=True, blank=True,
                                  related_name='mycourses')
     name = models.CharField('Название курса', max_length=128)
@@ -24,7 +25,7 @@ class course(models.Model):
     date_end = models.DateField('Дата окончания обучения')
 
     class Meta:
-        ordering = ['length_of_time']
+        ordering = ['name']
         verbose_name = 'Курс'
         verbose_name_plural = 'Курсы'
 

@@ -2,9 +2,10 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.template import Template, Context
 from django.views.generic import TemplateView, ListView, DetailView, UpdateView, CreateView, DeleteView
-from userside.forms import CourseSearch
+# from userside.forms import CourseSearch
 import userside.models
 import userside.filters
+import userside.forms
 from django.urls import path, reverse
 
 
@@ -47,14 +48,13 @@ class courses(TitleMixin, ListView):
 
     def get_context_data(self):
         context = super().get_context_data()
-        # context['form'] = CourseSearch(self.request.GET or None)
+        # context['form'] = userside.forms.CourseCreate()
         context['filters'] = self.get_filters()
-        print(context)
+        # print(context)
         return context
 
 
 class course_detail(TitleMixin, DetailView):
-
     queryset = userside.models.course.objects.all()
 
     def get_title(self):
@@ -74,7 +74,7 @@ class CourseUpdate(TitleMixin, UpdateView):
 
 class CourseCreate(TitleMixin, CreateView):
     model = userside.models.course
-    form_class = userside.forms.CourseEdit
+    form_class = userside.forms.CourseCreate
     title = 'Добавление курса'
 
     def get_success_url(self):
