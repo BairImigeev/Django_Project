@@ -1,11 +1,14 @@
+import calendar
 import datetime
 
 from django.db import models
+from django import forms
 
 # Create your models here.
 
 
 class educator(models.Model):
+
     name = models.CharField('Преподаватель', max_length=128)
 
     def __str__(self):
@@ -13,16 +16,11 @@ class educator(models.Model):
 
 
 class course(models.Model):
-    # 'userside.educator'
+
     educator = models.ForeignKey('userside.educator', on_delete=models.CASCADE, null=True, blank=True,
-                                 related_name='mycourses')
+                                 related_name='courses')
     name = models.CharField('Название курса', max_length=128)
     length_of_time = models.IntegerField('Количество часов', blank=True, null=True)
-    status = models.CharField('Статус', max_length=128)
-    mark = models.IntegerField('Оценка', blank=True, null=True)
-    action_object = models.CharField('Действие над объектом', max_length=128)
-    date_begin = models.DateField('Дата начала обучения')
-    date_end = models.DateField('Дата окончания обучения')
 
     class Meta:
         ordering = ['name']
@@ -33,18 +31,19 @@ class course(models.Model):
         return self.name
 
 
-class Notification(models.Model):
-    pass
+class mycourse(models.Model):
+
+    name = models.ForeignKey('userside.course', on_delete=models.SET_NULL, null=True)
+    date_begin = models.DateField('Дата начала')
+    date_end = models.DateField('Дата окончания')
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = 'Mой Курс'
+        verbose_name_plural = 'Мои Курсы'
+
+    def __str__(self):
+        return self.name.name
 
 
-class My_documents(models.Model):
-    pass
 
-
-class Order(models.Model):
-    date = models.DateField()
-    course = models.ManyToManyField('userside.course')
-
-
-# class Notice(models.Model):
-#     new_notice = models.CharField('Уведомление')
