@@ -39,17 +39,9 @@ class MyCourseCreate(forms.ModelForm):
             raise forms.ValidationError(f'Неверная конечная дата обучения, требуется минимум {days} '
                                         f'рабочих дня(ей) на курс')
 
-        # delta = date_1 - date_0
-        # days_work = int(delta.days/7*5)
-        # print('количество рабочих дней диапазона : ', days_work)
-        # print('количество заданных часов в курсе : ', value_hous)
-        # work_hous_days_work = 2 * days_work
-        # print('количество часов в рабочие дни диапазона : ', work_hous_days_work)
-        # otn = value_hous/work_hous_days_work
-        # print('отношение заданных часов к диапазону : ', otn)
-
 
 class MyCourseEdit(forms.ModelForm):
+
     class Meta:
         model = userside.models.mycourse
         fields = '__all__'

@@ -132,7 +132,7 @@ class mycourse_detail(TitleMixin, DetailView):
 class MyCourseCreate(TitleMixin, CreateView):
     model = userside.models.mycourse
     form_class = userside.forms.MyCourseCreate
-    title = 'Добавление моего курса'
+    title = 'Добавление курса'
 
     def get_success_url(self):
         return reverse('userside:mycourse_list')
@@ -143,7 +143,7 @@ class MyCourseUpdate(TitleMixin, UpdateView):
     form_class = userside.forms.MyCourseEdit
 
     def get_title(self):
-        return f'Изменение данных моего курса "{str(self.get_object())}"'
+        return f'Изменение данных курса "{str(self.get_object())}"'
 
     def get_success_url(self):
         return reverse('userside:course_list')
@@ -153,7 +153,7 @@ class MyCourseDelete(TitleMixin, DeleteView):
     model = userside.models.mycourse
 
     def get_title(self):
-        return f'Удаление моего курса {str(self.get_object())}'
+        return f'Удаление курса {str(self.get_object())}'
 
     def get_success_url(self):
         return reverse('userside:course_list')
