@@ -53,22 +53,6 @@ class courses(TitleMixin, ListView):
         return context
 
 
-class mycourses(TitleMixin, ListView):
-
-    title = 'Мои курсы'
-
-    def get_filters(self):
-        return userside.filters.MyCourseFilter(self.request.GET)
-
-    def get_queryset(self):
-        return self.get_filters().qs
-
-    def get_context_data(self):
-        context = super().get_context_data()
-        context['filters'] = self.get_filters()
-        return context
-
-
 class course_detail(TitleMixin, DetailView):
     queryset = userside.models.course.objects.all()
 
@@ -78,7 +62,7 @@ class course_detail(TitleMixin, DetailView):
 
 class CourseUpdate(TitleMixin, UpdateView):
     model = userside.models.course
-    form_class = userside.forms.CourseEdit
+    form_class = userside.forms.Course
 
     def get_title(self):
         return f'Изменение данных курса "{str(self.get_object())}"'
@@ -89,7 +73,7 @@ class CourseUpdate(TitleMixin, UpdateView):
 
 class CourseCreate(TitleMixin, CreateView):
     model = userside.models.course
-    form_class = userside.forms.CourseCreate
+    form_class = userside.forms.Course
     title = 'Добавление курса'
 
     def get_success_url(self):
@@ -104,6 +88,25 @@ class CourseDelete(TitleMixin, DeleteView):
 
     def get_success_url(self):
         return reverse('userside:course_list')
+
+
+# мои курсы
+
+
+class mycourses(TitleMixin, ListView):
+
+    title = 'Мои курсы'
+
+    def get_filters(self):
+        return userside.filters.MyCourseFilter(self.request.GET)
+
+    def get_queryset(self):
+        return self.get_filters().qs
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        context['filters'] = self.get_filters()
+        return context
 
 
 class mycourse_detail(TitleMixin, DetailView):
@@ -159,9 +162,70 @@ class MyCourseDelete(TitleMixin, DeleteView):
         return reverse('userside:mycourse_list')
 
 
+# преподаватели
+
+class educators(TitleMixin, ListView):
+
+    title = 'Преподаватели'
+
+    def get_filters(self):
+        return userside.filters.EducatorFilter(self.request.GET)
+
+    def get_queryset(self):
+        return self.get_filters().qs
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        # context['form'] = userside.forms.CourseCreate()
+        context['filters'] = self.get_filters()
+        return context
+
+
+class educator_detail(TitleMixin, DetailView):
+
+    queryset = userside.models.educator.objects.all()
+
+    def get_title(self):
+        return str(self.get_object())
+
+
+class EducatorCreate(TitleMixin, CreateView):
+    model = userside.models.educator
+    form_class = userside.forms.Educator
+    title = 'Добавление преподавателя'
+
+    def get_success_url(self):
+        return reverse('userside:educator_list')
+
+
+class EducatorUpdate(TitleMixin, UpdateView):
+    model = userside.models.educator
+    form_class = userside.forms.Educator
+
+    def get_title(self):
+        return f'Изменение данных курса "{str(self.get_object())}"'
+
+    def get_success_url(self):
+        return reverse('userside:mycourse_list')
+
+
+class EducatorDelete(TitleMixin, DeleteView):
+    model = userside.models.educator
+
+    def get_title(self):
+        return f'Удаление преподавателя {str(self.get_object())}'
+
+    def get_success_url(self):
+        return reverse('userside:educator_list')
+
+
+# уведомления
+
 class Notice(TitleMixin, ListView):
     pass
 
+
+# документы
 
 class My_Documents(TitleMixin, ListView):
     pass

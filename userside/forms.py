@@ -5,21 +5,13 @@ import userside.models
 import datetime
 
 
-class CourseEdit(forms.ModelForm):
-    class Meta:
-        model = userside.models.course
-        fields = '__all__'
-
-
-class CourseCreate(forms.ModelForm):
-
+class Course(forms.ModelForm):
     class Meta:
         model = userside.models.course
         fields = '__all__'
 
 
 class MyCourseCreate(forms.ModelForm):
-
     class Meta:
         model = userside.models.mycourse
         fields = '__all__'
@@ -48,6 +40,11 @@ class MyCourseEdit(forms.ModelForm):
         fields = '__all__'
 
 
+class Educator(forms.ModelForm):
+
+    class Meta:
+        model = userside.models.educator
+        fields = '__all__'
 
 
 

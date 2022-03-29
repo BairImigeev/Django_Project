@@ -1,0 +1,26 @@
+{% extends 'userside/index.html' %}
+
+{% block content %}
+{% include 'userside/search_course_include.html' %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">ФИО Преподавателя</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for educator in object_list %}
+        <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td><a href="{% url 'userside:educator_detail' educator.pk %}" > {{ educator.name|capfirst }}</a></td>
+        </tr>
+        {% empty %}
+            <h4> не найдено </h4>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'userside:mycourse_create' %}" class="btn btn-success"> Добавить преподавателя</a>
+
+{% endblock %}

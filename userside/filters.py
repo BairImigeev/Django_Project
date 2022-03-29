@@ -6,7 +6,7 @@ import userside.models
 class CourseFilter(django_filters.FilterSet):
 
     name = django_filters.Filter(lookup_expr='icontains', label='Название')
-    educator = django_filters.Filter(lookup_expr='name__icontains',label='Преподаватель')
+    educator = django_filters.Filter(lookup_expr='name__icontains', label='Преподаватель')
 
     class Meta:
         model = userside.models.course
@@ -21,3 +21,11 @@ class MyCourseFilter(django_filters.FilterSet):
         model = userside.models.mycourse
         fields = '__all__'
 
+
+class EducatorFilter(django_filters.FilterSet):
+
+    name = django_filters.Filter(lookup_expr='icontains', label='ФИО преподавателя')
+
+    class Meta:
+        model = userside.models.educator
+        fields = '__all__'
