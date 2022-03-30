@@ -12,6 +12,7 @@ class Course(forms.ModelForm):
 
 
 class MyCourseCreate(forms.ModelForm):
+
     class Meta:
         model = userside.models.mycourse
         fields = '__all__'

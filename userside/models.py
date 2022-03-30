@@ -9,11 +9,6 @@ class educator(models.Model):
 
     name = models.CharField('Преподаватель', max_length=128)
 
-    # class Meta:
-    #     ordering = ['name']
-    #     verbose_name = 'Преподаватель'
-    #     verbose_name_plural = 'Преподаватели'
-
     def __str__(self):
         return self.name
 
