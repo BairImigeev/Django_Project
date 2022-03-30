@@ -24,4 +24,5 @@ jobs:
 
       - name: Run Tests
         run: | 
-          coverage run --source='userside' --omit='*migrations*,*tests*' && manage.py test -v 2 userside
+          coverage run --source='userside' --omit='*migrations*,*tests*' manage.py test -v 2 userside && coverage report
+
