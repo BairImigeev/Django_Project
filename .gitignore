@@ -1,0 +1,7 @@
+db.sqlite3
+Django_Project
+.idea
+/.coverage
+/htmlcov/
+package-lock.json
+/node_modules/
