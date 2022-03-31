@@ -6,9 +6,9 @@
   tasks:
     - name: "Install packages"
       apt:
-        name:['nginx','docker.io','python3-pip']
-        state:"latest"
-        update_cache:true
+        name: ['nginx','docker.io','python3-pip']
+        state: "latest"
+        update_cache: true
 
     - name: "Install pip packages"
       pip:
@@ -26,8 +26,8 @@
     - name: "Create directories"
       file: path={{ item }} state=directory mode = 0700
       with_items:
-         - "/var/docker/django_test_project/conf"
-         - "/var/docker/django_test_project/data"
+        - "/var/docker/django_test_project/conf"
+        - "/var/docker/django_test_project/data"
 
     - name: Start container
       docker_container:
