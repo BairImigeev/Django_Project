@@ -70,7 +70,7 @@
       shell: docker exec -i django-test-project bash -c "python3 ./manage.py collectstatic --noinput"
 
     - name: Copy npm packegs
-      shell: docker exec -i django-test-project bash -c 'rm -rf static/node_modules; mv node_modules static/"
+      shell: docker exec -i django-test-project bash -c "rm -rf static/node_modules; mv node_modules static/"
 
     - name : Restart container
       shell: docker restart django-test-project
