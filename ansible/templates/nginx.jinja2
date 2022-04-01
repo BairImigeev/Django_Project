@@ -1,0 +1,21 @@
+server {
+    listen 80;
+    server_name default;
+
+    access_log /var/log/www/django_test_project/access.log;
+    error_log /var/log/www/django_test_project/error.log;
+
+    location /node_modules {
+        alias /var/www/django_test_project/static/node_modules;
+    }
+
+    location /static {
+        alias /var/www/django_test_project/static;
+    }
+
+    location / {
+        proxy_pass http://127.0.0.1:8854/;
+        proxy_set_header X-Forward-Proto $scheme;
+        proxy_set_header Host $http_host;
+    }
+}
