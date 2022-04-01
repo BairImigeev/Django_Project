@@ -11,7 +11,7 @@ WORKDIR /opt/app
 EXPOSE 80
 ENV PYTHONUNBUFFERED 1
 
-COPY supervisor/supervisor.conf /etc/supervisor/supervisor.conf
+COPY supervisor/supervisord.conf /etc/supervisor/supervisord.conf
 COPY supervisor/app.conf /etc/supervisor/conf.d/app.conf
 
 VOLUME /data/
