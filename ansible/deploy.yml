@@ -61,7 +61,7 @@
         volumes:
           - "/var/www/django_test_project/static:/static"
         env:
-          - POSTGRESQL_PASS: "{{ POSTGRES_PASSWORD }}"
+          POSTGRESQL_PASS: "{{ POSTGRES_PASSWORD }}"
 
     - name: Install npm
       shell: docker exec -i django-test-project bash -c "npm install"
