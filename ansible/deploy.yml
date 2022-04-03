@@ -16,12 +16,12 @@
         name: ['docker-py']
 
     - name: "Pull docker image"
-      shell: docker pull bairit/django_test_project:1.01
+      shell: docker pull bairit/django_test_project:1.06
 
     - name: "Remove old container"
       docker_container:
         name: django-test-project
-        image: bairit/django_test_project
+        image: bairit/django_test_project:1.06
         state: absent
 
     - name: "Create directories"
@@ -37,7 +37,7 @@
 
     - name: Start container db
       docker_container:
-        name: test-project-db
+        name: django-test-project-db
         image: postgres:13.1
         volumes: "/var/docker/django_test_project/data/:/var/lib/postgresql/data/"
         restart_policy: always
@@ -51,11 +51,11 @@
     - name: Start container
       docker_container:
         name: django-test-project
-        image: bairit/django_test_project:1.01
+        image: bairit/django_test_project:1.06
         restart_policy: always
         state: started
         links:
-          - "test-project-db:db"
+          - "django-test-project-db:db"
         ports:
           - 127.0.0.1:8854:80
         volumes:
@@ -83,7 +83,10 @@
         recurse: yes
 
     - name: Wait django-test-project start
-      shell: sleep 3
+      shell: sleep 5
+
+    - name: Makemigrations db
+      shell: docker exec -i django-test-project bash -c "python3 ./manage.py makemigrations"
 
     - name: Migrate db
       shell: docker exec -i django-test-project bash -c "python3 ./manage.py migrate"
