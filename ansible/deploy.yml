@@ -1,4 +1,4 @@
-# ansible-playbook -i inv deploy.yml -e "POSTGRES_PASSWORD=django_test_project_superSecret"
+# ansible-playbook -i inv deploy.yml -e "POSTGRES_PASSWORD=django"
 ---
 
 - hosts: "all"
@@ -57,11 +57,12 @@
         links:
           - "django-test-project-db:db"
         ports:
-          - 127.0.0.1:8854:80
+          - 8854:80
         volumes:
           - "/var/www/django_test_project/static:/static"
         env:
           POSTGRESQL_PASS: "{{ POSTGRES_PASSWORD }}"
+
 
     - name: Install npm
       shell: docker exec -i django-test-project bash -c "npm install"
@@ -87,6 +88,12 @@
 
     - name: Makemigrations db
       shell: docker exec -i django-test-project bash -c "python3 ./manage.py makemigrations"
+
+    - name: TestPostgreSQL
+      shell: docker exec -i django-test-project bash "sudo service postgresql status"
+
+    - name: TestPostgresql2
+      shell: docker exec -i django-test-project bash "sudo netstat -nl | grep postgres"
 
     - name: Migrate db
       shell: docker exec -i django-test-project bash -c "python3 ./manage.py migrate"
