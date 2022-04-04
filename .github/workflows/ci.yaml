@@ -43,5 +43,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: bairit/django_test_project
+          tags: bairit/django_test_project:1.07
 
