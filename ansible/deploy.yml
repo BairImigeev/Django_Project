@@ -58,8 +58,8 @@
         state: started
         links:
           - "django-test-project-db:db"
-        ports:
-          - 127.0.0.1:8854:80
+#        ports:
+#          - 127.0.0.1:8854:80
         volumes:
           - "/var/www/django_test_project/static:/static"
         env:
