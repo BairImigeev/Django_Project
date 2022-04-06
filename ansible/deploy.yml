@@ -2,7 +2,7 @@
 ---
 
 - hosts: "all"
-  strategy: debug
+#  strategy: debug
   become: true
 
   tasks:
@@ -37,34 +37,27 @@
         - "/var/log/www/django_test_project"
 
     - name: Start container db
-      debugger : always
       docker_container:
-#      services:
         name: django-test-project-db
-#        services:
-#          db:
         image: postgres:13.1
         volumes: "/var/docker/django_test_project/data/:/var/lib/postgresql/data/"
         restart_policy: always
         state: started
         env:
-  #         POSTGRES_DB: "db"
           POSTGRES_PASSWORD: "{{ POSTGRES_PASSWORD }}"
           POSTGRES_USER: django
           POSTGRES_NAME: django
-  #          HOST: db
 
 
     - name: Start container
-      debugger: always
+#      debugger: always
       docker_container:
-
         name: django-test-project
         image: bairit/django_test_project:1.071
         restart_policy: always
         state: started
         links:
-          - "db:django-test-project-db"
+          - "django-test-project-db:db"
         ports:
           - 127.0.0.1:8854:80
         volumes:
