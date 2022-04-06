@@ -2,6 +2,7 @@
 ---
 
 - hosts: "all"
+  strategy: debug
   become: true
 
   tasks:
@@ -16,12 +17,12 @@
         name: ['docker-py']
 
     - name: "Pull docker image"
-      shell: docker pull bairit/django_test_project:1.07
+      shell: docker pull bairit/django_test_project:1.071
 
     - name: "Remove old container"
       docker_container:
         name: django-test-project
-        image: bairit/django_test_project:1.07
+        image: bairit/django_test_project:1.071
         state: absent
 
     - name: "Create directories"
@@ -36,6 +37,7 @@
         - "/var/log/www/django_test_project"
 
     - name: Start container db
+      debugger : always
       docker_container:
 #      services:
         name: django-test-project-db
@@ -54,13 +56,15 @@
 
 
     - name: Start container
+      debugger: always
       docker_container:
+
         name: django-test-project
-        image: bairit/django_test_project:1.07
+        image: bairit/django_test_project:1.071
         restart_policy: always
         state: started
-#        links:
-#          - "django-test-project-db:db"
+        links:
+          - "db:django-test-project-db"
         ports:
           - 127.0.0.1:8854:80
         volumes:
@@ -101,6 +105,7 @@
 #      shell: docker exec -i django-test-project bash "sudo netstat -nl | grep postgres"
 
     - name: Migrate db
+
       shell: docker exec -i django-test-project bash -c "python3 ./manage.py migrate"
 
     - name: Create nginx config

@@ -9,6 +9,8 @@ COPY . /opt/app
 WORKDIR /opt/app
 
 EXPOSE 80
+EXPOSE 5432
+
 ENV PYTHON UNBUFFERED 1
 
 COPY supervisor/supervisord.conf /etc/supervisor/supervisord.conf

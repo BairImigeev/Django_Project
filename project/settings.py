@@ -84,7 +84,7 @@ if os.getenv('POSTGRESQL_PASS'):
             'NAME': 'django',
             'USER': 'django',
             'PASSWORD': os.getenv('POSTGRESQL_PASS'),
-            'HOST': '127.0.0.1',
+            'HOST': 'db',
             'PORT': '5432',
          }
     }
