@@ -2,7 +2,6 @@
 ---
 
 - hosts: "all"
-#  strategy: debug
   become: true
 
   tasks:
@@ -17,12 +16,12 @@
         name: ['docker-py']
 
     - name: "Pull docker image"
-      shell: docker pull bairit/django_test_project:1.071
+      shell: docker pull bairit/django_test_project:1.075
 
     - name: "Remove old container"
       docker_container:
         name: django-test-project
-        image: bairit/django_test_project:1.071
+        image: bairit/django_test_project:1.075
         state: absent
 
     - name: "Create directories"
@@ -50,10 +49,9 @@
 
 
     - name: Start container
-#      debugger: always
       docker_container:
         name: django-test-project
-        image: bairit/django_test_project:1.071
+        image: bairit/django_test_project:1.075
         restart_policy: always
         state: started
         links:
