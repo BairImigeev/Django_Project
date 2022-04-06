@@ -16,13 +16,19 @@
         name: ['docker-py']
 
     - name: "Pull docker image"
-      shell: docker pull bairit/django_test_project:1.075
+      shell: docker pull bairit/django_test_project
 
-    - name: "Remove old container"
-      docker_container:
-        name: django-test-project
-        image: bairit/django_test_project:1.075
-        state: absent
+#    - name: "Remove old container 1.075"
+#      docker_container:
+#        name: django-test-project
+#        image: bairit/django_test_project:1.075
+#        state: absent
+
+#    - name: "Remove old container 1.071"
+#      docker_container:
+#        name: django-test-project
+#        image: bairit/django_test_project:1.071
+#        state: absent
 
     - name: "Create directories"
       file: path={{ item }} state=directory mode=0700
@@ -51,7 +57,7 @@
     - name: Start container
       docker_container:
         name: django-test-project
-        image: bairit/django_test_project:1.075
+        image: bairit/django_test_project
         restart_policy: always
         state: started
         links:
@@ -70,8 +76,12 @@
     - name: Collect static
       shell: docker exec -i django-test-project bash -c "python3 ./manage.py collectstatic --noinput"
 
-    - name: Copy npm packegs
+    - name: Copy npm packages
       shell: docker exec -i django-test-project bash -c "rm -rf static/node_modules; mv node_modules static/"
+
+    - name: Migrate db
+      shell: docker exec -i django-test-project bash -c "python3 ./manage.py migrate"
+
 
     - name : Restart container
       shell: docker restart django-test-project
@@ -83,11 +93,16 @@
         owner: www-data
         recurse: yes
 
+#    - name: Makemigrations db
+#      shell: docker exec -i django-test-project bash -c "python3 ./manage.py makemigrations"
+
+#    - name: Migrate db
+#        shell: docker exec -i django-test-project bash -c "python3 ./manage.py migrate"
+
     - name: Wait django-test-project start
       shell: sleep 5
 
-    - name: Makemigrations db
-      shell: docker exec -i django-test-project bash -c "python3 ./manage.py makemigrations"
+
 
 #    - name: TestPostgreSQL
 #      shell: docker exec -i django-test-project bash "sudo service postgresql status"
@@ -95,9 +110,8 @@
 #    - name: TestPostgresql2
 #      shell: docker exec -i django-test-project bash "sudo netstat -nl | grep postgres"
 
-    - name: Migrate db
-
-      shell: docker exec -i django-test-project bash -c "python3 ./manage.py migrate"
+#    - name: Migrate db
+#      shell: docker exec -i django-test-project bash -c "python3 ./manage.py migrate"
 
     - name: Create nginx config
       template: src=nginx.jinja2 dest=/etc/nginx/sites-enabled/default
